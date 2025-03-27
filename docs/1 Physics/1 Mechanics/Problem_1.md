@@ -78,4 +78,53 @@ Where:
 - \( g \): acceleration due to gravity (9.81 m/s²)
 
 These kinematic equations are the basis for calculating projectile range, time of flight, and trajectory.
+### 2.2 Time of Flight
 
+The total duration that the projectile remains in the air can be calculated by setting the vertical displacement to zero:
+
+\[
+y(t) = 0 \quad \Rightarrow \quad t_f = \frac{2v_0 \sin(\theta)}{g}
+\]
+
+---
+
+### 2.3 Range of the Projectile
+
+The horizontal range \( R \) is the total distance the projectile travels before hitting the ground. Using the time of flight \( t_f \), we substitute into the horizontal position equation:
+
+\[
+R = v_0 \cos(\theta) \cdot \frac{2v_0 \sin(\theta)}{g}
+\]
+
+Using the identity \( 2 \sin(\theta) \cos(\theta) = \sin(2\theta) \), we get:
+
+\[
+R(\theta) = \frac{v_0^2}{g} \sin(2\theta)
+\]
+
+---
+
+### 2.4 Maximum Range
+
+The range is maximized when \( \sin(2\theta) = 1 \), which occurs at a launch angle of \( \theta = 45^\circ \). Therefore, the maximum horizontal distance is:
+
+\[
+R_{\text{max}} = \frac{v_0^2}{g}
+\]
+
+ ## 3. Analysis of the Range
+
+### 3.1 Influence of Launch Angle
+
+- The range displays a **symmetric pattern** around \( \theta = 45^\circ \).
+- Launch angles \( \theta \) and \( 90^\circ - \theta \) produce **identical ranges**, due to the sine double angle identity.
+
+### 3.2 Impact of Initial Velocity
+
+- As the initial speed \( v_0 \) increases, the range also increases.
+- Specifically, the range is **proportional to \( v_0^2 \)**.
+
+### 3.3 Role of Gravitational Acceleration
+
+- A larger gravitational pull (like on Jupiter) **decreases** the range.
+- A smaller gravitational field (like on the Moon) **increases**
