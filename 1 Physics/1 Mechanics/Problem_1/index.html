@@ -48,6 +48,20 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#exploring-the-relationship-between-angle-and-projectile-range">Exploring the Relationship Between Angle and Projectile Range</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#1-introduction">1. Introduction</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#2-theoretical-foundation">2. Theoretical Foundation</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#21-kinematic-equations-of-motion">2.1 Kinematic Equations of Motion</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#summary-of-equations">Summary of Equations:</a>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Problem_2/">Problem 2</a>
@@ -172,7 +186,67 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
-<p>Doruk Dogan </p>
+<h2 id="exploring-the-relationship-between-angle-and-projectile-range">Exploring the Relationship Between Angle and Projectile Range</h2>
+<h3 id="1-introduction">1. Introduction</h3>
+<p>Projectile motion may appear simple at first glance, but it forms a critical foundation for exploring essential physics concepts. In this problem, we aim to examine how the range of a projectile is influenced by the angle at which it is launched.</p>
+<p>Though the scenario is straightforward, the mathematics behind it involves both linear and nonlinear dynamics, making it a rich field of study.</p>
+<p>Some of the primary factors affecting the motion include:</p>
+<ul>
+<li><strong>Initial speed <span class="arithmatex">\( v_0 \)</span></strong></li>
+<li><strong>Gravitational force <span class="arithmatex">\( g \)</span></strong></li>
+<li><strong>Launch height <span class="arithmatex">\( h \)</span></strong></li>
+</ul>
+<p>These variables lead to a broad variety of trajectories—from sports ball throws to missile launches—making this problem relevant in many real-world situations.</p>
+<h2 id="2-theoretical-foundation">2. Theoretical Foundation</h2>
+<p>To explore projectile motion in more depth, we rely on Newton’s Second Law of Motion to derive the core equations that govern the system.</p>
+<h3 id="21-kinematic-equations-of-motion">2.1 Kinematic Equations of Motion</h3>
+<p>Projectile motion follows Newton’s law:</p>
+<div class="arithmatex">\[
+F = m \cdot a
+\]</div>
+<p>In our case, the forces involved are:
+1. <strong>Gravitational force</strong> acting downward <span class="arithmatex">\( (mg) \)</span>
+2. <strong>No horizontal forces</strong>, assuming no air resistance</p>
+<p>So the acceleration in each direction is:</p>
+<div class="arithmatex">\[
+a_x = 0, \quad a_y = -g
+\]</div>
+<h4 id="velocity-components">Velocity components:</h4>
+<p>By integrating acceleration, we find:</p>
+<div class="arithmatex">\[
+v_x = v_0 \cos(\theta), \quad v_y = v_0 \sin(\theta) - gt
+\]</div>
+<h4 id="position-components">Position components:</h4>
+<p>Integrating once more gives:</p>
+<p>[
+x(t) = v_0 \cos(\theta) \cdot t
+]
+[
+y(t) = v_0 \sin(\theta) \cdot t - \frac{1}{2}gt^2
+]</p>
+<hr/>
+<h3 id="summary-of-equations">Summary of Equations:</h3>
+<ul>
+<li>
+<p><strong>Horizontal motion (no acceleration)</strong>:<br/>
+  [
+  x(t) = v_0 \cos(\theta)t
+  ]</p>
+</li>
+<li>
+<p><strong>Vertical motion (with constant acceleration)</strong>:<br/>
+  [
+  y(t) = v_0 \sin(\theta)t - \frac{1}{2}gt^2
+  ]</p>
+</li>
+</ul>
+<hr/>
+<p>Where:
+- <span class="arithmatex">\( x(t) \)</span>, <span class="arithmatex">\( y(t) \)</span>: projectile’s position at time <span class="arithmatex">\( t \)</span>
+- <span class="arithmatex">\( v_0 \)</span>: initial velocity
+- <span class="arithmatex">\( \theta \)</span>: launch angle
+- <span class="arithmatex">\( g \)</span>: acceleration due to gravity (9.81 m/s²)</p>
+<p>These kinematic equations are the basis for calculating projectile range, time of flight, and trajectory.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
