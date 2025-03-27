@@ -60,6 +60,18 @@
 </li>
 <li class="toctree-l4"><a class="reference internal" href="#summary-of-equations">Summary of Equations:</a>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="#22-time-of-flight">2.2 Time of Flight</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#23-range-of-the-projectile">2.3 Range of the Projectile</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#24-maximum-range">2.4 Maximum Range</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#31-influence-of-launch-angle">3.1 Influence of Launch Angle</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#32-impact-of-initial-velocity">3.2 Impact of Initial Velocity</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#33-role-of-gravitational-acceleration">3.3 Role of Gravitational Acceleration</a>
+</li>
 </ul>
 </li>
 </ul>
@@ -195,6 +207,43 @@ y(t) = v_0 \sin(\theta) \cdot t - \frac{1}{2}gt^2
 - <span class="arithmatex">\( \theta \)</span>: launch angle
 - <span class="arithmatex">\( g \)</span>: acceleration due to gravity (9.81 m/s²)</p>
 <p>These kinematic equations are the basis for calculating projectile range, time of flight, and trajectory.</p>
+<h3 id="22-time-of-flight">2.2 Time of Flight</h3>
+<p>The total duration that the projectile remains in the air can be calculated by setting the vertical displacement to zero:</p>
+<div class="arithmatex">\[
+y(t) = 0 \quad \Rightarrow \quad t_f = \frac{2v_0 \sin(\theta)}{g}
+\]</div>
+<hr/>
+<h3 id="23-range-of-the-projectile">2.3 Range of the Projectile</h3>
+<p>The horizontal range <span class="arithmatex">\( R \)</span> is the total distance the projectile travels before hitting the ground. Using the time of flight <span class="arithmatex">\( t_f \)</span>, we substitute into the horizontal position equation:</p>
+<div class="arithmatex">\[
+R = v_0 \cos(\theta) \cdot \frac{2v_0 \sin(\theta)}{g}
+\]</div>
+<p>Using the identity <span class="arithmatex">\( 2 \sin(\theta) \cos(\theta) = \sin(2\theta) \)</span>, we get:</p>
+<div class="arithmatex">\[
+R(\theta) = \frac{v_0^2}{g} \sin(2\theta)
+\]</div>
+<hr/>
+<h3 id="24-maximum-range">2.4 Maximum Range</h3>
+<p>The range is maximized when <span class="arithmatex">\( \sin(2\theta) = 1 \)</span>, which occurs at a launch angle of <span class="arithmatex">\( \theta = 45^\circ \)</span>. Therefore, the maximum horizontal distance is:</p>
+<div class="arithmatex">\[
+R_{\text{max}} = \frac{v_0^2}{g}
+\]</div>
+<p>## 3. Analysis of the Range</p>
+<h3 id="31-influence-of-launch-angle">3.1 Influence of Launch Angle</h3>
+<ul>
+<li>The range displays a <strong>symmetric pattern</strong> around <span class="arithmatex">\( \theta = 45^\circ \)</span>.</li>
+<li>Launch angles <span class="arithmatex">\( \theta \)</span> and <span class="arithmatex">\( 90^\circ - \theta \)</span> produce <strong>identical ranges</strong>, due to the sine double angle identity.</li>
+</ul>
+<h3 id="32-impact-of-initial-velocity">3.2 Impact of Initial Velocity</h3>
+<ul>
+<li>As the initial speed <span class="arithmatex">\( v_0 \)</span> increases, the range also increases.</li>
+<li>Specifically, the range is <strong>proportional to <span class="arithmatex">\( v_0^2 \)</span></strong>.</li>
+</ul>
+<h3 id="33-role-of-gravitational-acceleration">3.3 Role of Gravitational Acceleration</h3>
+<ul>
+<li>A larger gravitational pull (like on Jupiter) <strong>decreases</strong> the range.</li>
+<li>A smaller gravitational field (like on the Moon) <strong>increases</strong></li>
+</ul>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
