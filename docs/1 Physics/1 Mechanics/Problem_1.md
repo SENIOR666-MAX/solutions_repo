@@ -403,11 +403,7 @@ HTML(ani.to_html5_video())
 
 ---
 
-## 8. References & Suggested Resources
 
-- Resnick, R., & Halliday, D. (2004). *Fundamentals of Physics*.  
-- MIT OpenCourseWare – Classical Mechanics Lecture Series  
-- NASA technical resources on orbital mechanics and launch trajectories
 
 
 
