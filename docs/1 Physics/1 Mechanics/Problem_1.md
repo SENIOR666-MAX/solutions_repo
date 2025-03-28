@@ -78,6 +78,7 @@ Where:
 - \( g \): acceleration due to gravity (9.81 m/s²)
 
 These kinematic equations are the basis for calculating projectile range, time of flight, and trajectory.
+
 ### 2.2 Time of Flight
 
 The total duration that the projectile remains in the air can be calculated by setting the vertical displacement to zero:
@@ -112,7 +113,7 @@ The range is maximized when \( \sin(2\theta) = 1 \), which occurs at a launch an
 R_{\text{max}} = \frac{v_0^2}{g}
 \]
 
- ## 3. Analysis of the Range
+## 3. Analysis of the Range
 
 ### 3.1 Influence of Launch Angle
 
@@ -127,4 +128,62 @@ R_{\text{max}} = \frac{v_0^2}{g}
 ### 3.3 Role of Gravitational Acceleration
 
 - A larger gravitational pull (like on Jupiter) **decreases** the range.
-- A smaller gravitational field (like on the Moon) **increases**
+- A smaller gravitational field (like on the Moon) **increases** the range.
+
+---
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define parameters
+v0 = 20  # Initial velocity (m/s)
+g = 9.81  # Gravity (m/s^2)
+theta = np.linspace(0, 90, 100)  # Angle range from 0 to 90 degrees
+
+# Compute range
+R = (v0**2 * np.sin(np.deg2rad(2 * theta))) / g
+
+# Plot the range vs. angle
+plt.figure(figsize=(10, 6))
+plt.plot(theta, R, label='Range (R)', color='blue')
+
+# Mark the maximum range at 45°
+plt.axvline(45, color='red', linestyle='--', label='Max Range at 45°')
+plt.text(46, max(R)-2, "Maximum Range", color='red')
+
+plt.xlabel('Projection Angle (θ) [Degrees]')
+plt.ylabel('Range (R) [m]')
+plt.title('Projectile Range as a Function of Launch Angle')
+plt.grid(True)
+plt.legend()
+plt.show()
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define parameters
+v0 = 20  # Initial velocity (m/s)
+g = 9.81  # Gravity (m/s^2)
+theta = np.linspace(0, 90, 100)  # Angle range from 0 to 90 degrees
+
+# Compute range
+R = (v0**2 * np.sin(np.deg2rad(2 * theta))) / g
+
+# Plot the range vs. angle
+plt.figure(figsize=(10, 6))
+plt.plot(theta, R, label='Range (R)', color='blue')
+
+# Mark the maximum range at 45°
+plt.axvline(45, color='red', linestyle='--', label='Max Range at 45°')
+plt.text(46, max(R)-2, "Maximum Range", color='red')
+
+plt.xlabel('Projection Angle (θ) [Degrees]')
+plt.ylabel('Range (R) [m]')
+plt.title('Projectile Range as a Function of Launch Angle')
+plt.grid(True)
+plt.legend()
+plt.show()
+```
+
+![Projectile Range vs Launch Angle](https://i.imgur.com/YWBGwXy.png)
