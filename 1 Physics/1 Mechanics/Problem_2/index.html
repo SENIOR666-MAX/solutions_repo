@@ -50,6 +50,8 @@
 </li>
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 2</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#investigating-the-dynamics-of-a-forced-damped-pendulum">Investigating the Dynamics of a Forced Damped Pendulum</a>
+</li>
 </ul>
 </li>
 </ul>
@@ -120,6 +122,1069 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-2">Problem 2</h1>
+<h2 id="investigating-the-dynamics-of-a-forced-damped-pendulum">Investigating the Dynamics of a Forced Damped Pendulum</h2>
+<p><strong>Motivation</strong></p>
+<p>The forced damped pendulum is a well-established model in nonlinear dynamics, known for exhibiting a wide array of complex motion patterns. These behaviors arise from the combined influence of three main factors: damping, restoring forces, and an external periodic input.</p>
+<p>When both damping and periodic forcing are introduced, the pendulum's motion extends far beyond simple harmonic oscillations, giving rise to a diverse range of dynamic responses. These include synchronized periodic motion, quasiperiodicity, resonance effects, and chaotic trajectories. Because of this variety, the system is particularly useful in studying the emergence of chaos and nonlinearity in deterministic frameworks.</p>
+<p>The addition of an external force brings two key parameters into play: the amplitude and frequency of the input. By adjusting these values, one can explore different types of transitions and bifurcations within the system, gaining insight into how nonlinear systems behave under continuous external influence. Depending on the parameter values, the system may settle into regular periodic motion, display quasiperiodic or chaotic behavior, or resonate at specific frequencies.</p>
+<p>The study of forced damped pendulums has significant practical relevance across various engineering and physics disciplines. Its applications span energy harvesting, mechanical vibration control, electrical circuits (like RLC systems), and even biological systems such as human gait analysis. The pendulum serves as a simplified yet powerful analog for these more intricate real-world systems, acting as a bridge between theory and practical insight.</p>
+<p>The objective of this project is to explore the behavior of the forced damped pendulum using a combination of analytical reasoning and computational simulations. By analyzing how initial conditions and physical parameters affect the system, we aim to gain a clearer understanding of nonlinear oscillations, chaotic dynamics, and the influence of damping and periodic forcing. Through tools such as Python and numerical methods (e.g., Runge-Kutta algorithms), various scenarios will be simulated and studied in depth.</p>
+<h1 id="mathematical-modeling-of-the-forced-damped-pendulum">Mathematical Modeling of the Forced Damped Pendulum</h1>
+<h2 id="1-theoretical-background">1. Theoretical Background</h2>
+<h3 id="governing-equation-of-motion">Governing Equation of Motion</h3>
+<p>The dynamics of a <strong>forced damped pendulum</strong> are described by a second-order, nonlinear, and non-homogeneous differential equation. This equation captures the combined influence of three main forces:</p>
+<ol>
+<li>
+<p><strong>Restoring Force</strong>: caused by gravity<br/>
+   [
+   -mgL\sin(\theta)
+   ]</p>
+</li>
+<li>
+<p><strong>Damping Force</strong>: related to angular velocity and opposing motion (e.g., due to friction or air resistance)<br/>
+   [
+   -b \frac{d\theta}{dt}
+   ]</p>
+</li>
+<li>
+<p><strong>External Driving Force</strong>: a periodic torque of the form<br/>
+   [
+   A \cos(\omega t)
+   ]</p>
+</li>
+</ol>
+<p>By applying Newton’s second law for rotational motion, the torque equation becomes:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mi>I</mi>
+<mfrac>
+<mrow>
+<msup>
+<mi>d</mi>
+<mn>2</mn>
+</msup>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<msup>
+<mi>t</mi>
+<mn>2</mn>
+</msup>
+</mrow>
+</mfrac>
+<mo>=</mo>
+<mo>−</mo>
+<mi>m</mi>
+<mi>g</mi>
+<mi>L</mi>
+<mi>s</mi>
+<mi>i</mi>
+<mi>n</mi>
+<mo stretchy="false">(</mo>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo stretchy="false">)</mo>
+<mo>−</mo>
+<mi>b</mi>
+<mfrac>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mi>A</mi>
+<mi>c</mi>
+<mi>o</mi>
+<mi>s</mi>
+<mo stretchy="false">(</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<mi>a</mi>
+<mi>t</mi>
+<mo stretchy="false">)</mo>
+</math>
+<p>]</p>
+<p>Where:<br/>
+- <span class="arithmatex">\( I = mL^2 \)</span> is the moment of inertia for a mass at the end of a massless rod<br/>
+- <span class="arithmatex">\( L \)</span>: pendulum length<br/>
+- <span class="arithmatex">\( m \)</span>: mass of the bob<br/>
+- <span class="arithmatex">\( b \)</span>: damping coefficient<br/>
+- <span class="arithmatex">\( A \)</span>: amplitude of the driving torque</p>
+<hr/>
+<h3 id="dimensionless-form-of-the-equation">Dimensionless Form of the Equation</h3>
+<p>Dividing both sides by the moment of inertia <span class="arithmatex">\( I \)</span>, we obtain the normalized version:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mfrac>
+<mrow>
+<msup>
+<mi>d</mi>
+<mn>2</mn>
+</msup>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<msup>
+<mi>t</mi>
+<mn>2</mn>
+</msup>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mfrac>
+<mi>b</mi>
+<mrow>
+<mi>m</mi>
+<msup>
+<mi>L</mi>
+<mn>2</mn>
+</msup>
+</mrow>
+</mfrac>
+<mfrac>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mfrac>
+<mi>g</mi>
+<mi>L</mi>
+</mfrac>
+<mi>s</mi>
+<mi>i</mi>
+<mi>n</mi>
+<mo stretchy="false">(</mo>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo stretchy="false">)</mo>
+<mo>=</mo>
+<mfrac>
+<mi>A</mi>
+<mrow>
+<mi>m</mi>
+<msup>
+<mi>L</mi>
+<mn>2</mn>
+</msup>
+</mrow>
+</mfrac>
+<mi>c</mi>
+<mi>o</mi>
+<mi>s</mi>
+<mo stretchy="false">(</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<mi>a</mi>
+<mi>t</mi>
+<mo stretchy="false">)</mo>
+</math>
+<p>]</p>
+<p>To simplify notation, we define:</p>
+<ul>
+<li>
+<p>Damping ratio:<br/>
+  [
+  \gamma = \frac{b}{mL^2}
+  ]</p>
+</li>
+<li>
+<p>Natural frequency squared:<br/>
+  [
+  \omega_0^2 = \frac{g}{L}
+  ]</p>
+</li>
+<li>
+<p>Scaled forcing amplitude:<br/>
+  [
+  f = \frac{A}{mL^2}
+  ]</p>
+</li>
+</ul>
+<p>Using these definitions, the equation becomes:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mfrac>
+<mrow>
+<msup>
+<mi>d</mi>
+<mn>2</mn>
+</msup>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<msup>
+<mi>t</mi>
+<mn>2</mn>
+</msup>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<mi>a</mi>
+<mfrac>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mi>s</mi>
+<mi>i</mi>
+<mi>n</mi>
+<mo stretchy="false">(</mo>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo stretchy="false">)</mo>
+<mo>=</mo>
+<mi>f</mi>
+<mi>c</mi>
+<mi>o</mi>
+<mi>s</mi>
+<mo stretchy="false">(</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<mi>a</mi>
+<mi>t</mi>
+<mo stretchy="false">)</mo>
+</math>
+<p>]</p>
+<p>This final form is the <strong>nonlinear, non-homogeneous second-order differential equation</strong> that governs the behavior of the forced damped pendulum.</p>
+<h2 id="small-angle-linearization">Small-Angle Linearization</h2>
+<p>When the angular displacement <span class="arithmatex">\( \theta \)</span> remains small (i.e., <span class="arithmatex">\( \theta \ll 1 \)</span>), the sine function can be approximated using the Taylor series expansion:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mi>s</mi>
+<mi>i</mi>
+<mi>n</mi>
+<mo stretchy="false">(</mo>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo stretchy="false">)</mo>
+<mi>a</mi>
+<mi>p</mi>
+<mi>p</mi>
+<mi>r</mi>
+<mi>o</mi>
+<mi>x</mi>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo>−</mo>
+<mfrac>
+<mrow>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<msup>
+<mi>a</mi>
+<mn>3</mn>
+</msup>
+</mrow>
+<mn>6</mn>
+</mfrac>
+<mo>+</mo>
+<mfrac>
+<mrow>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<msup>
+<mi>a</mi>
+<mn>5</mn>
+</msup>
+</mrow>
+<mn>120</mn>
+</mfrac>
+<mo>−</mo>
+<mi>c</mi>
+<mi>d</mi>
+<mi>o</mi>
+<mi>t</mi>
+<mi>s</mi>
+</math>
+<p>]</p>
+<p>By ignoring the higher-order (nonlinear) terms, this simplifies to:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mi>s</mi>
+<mi>i</mi>
+<mi>n</mi>
+<mo stretchy="false">(</mo>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo stretchy="false">)</mo>
+<mi>a</mi>
+<mi>p</mi>
+<mi>p</mi>
+<mi>r</mi>
+<mi>o</mi>
+<mi>x</mi>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</math>
+<p>]</p>
+<p>Applying this simplification to the nonlinear pendulum equation, we get:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mfrac>
+<mrow>
+<msup>
+<mi>d</mi>
+<mn>2</mn>
+</msup>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<msup>
+<mi>t</mi>
+<mn>2</mn>
+</msup>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<mi>a</mi>
+<mfrac>
+<mrow>
+<mi>d</mi>
+<mi>n</mi>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo>=</mo>
+<mi>f</mi>
+<mi>c</mi>
+<mi>o</mi>
+<mi>s</mi>
+<mo stretchy="false">(</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<mi>a</mi>
+<mi>t</mi>
+<mo stretchy="false">)</mo>
+</math>
+<p>]</p>
+<p>This results in a <strong>linear second-order differential equation</strong>, which can be solved using classical techniques like undetermined coefficients or variation of parameters.  </p>
+<p>The full solution generally consists of two components:</p>
+<ul>
+<li><strong>Homogeneous solution</strong>: Describes the natural (transient) response, typically diminishing over time due to damping.  </li>
+<li><strong>Particular solution</strong>: Represents the steady-state behavior induced by the periodic driving force.</li>
+</ul>
+<h2 id="homogeneous-response">Homogeneous Response</h2>
+<p>The corresponding homogeneous differential equation, where the external forcing is removed, is written as:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mfrac>
+<mrow>
+<msup>
+<mi>d</mi>
+<mn>2</mn>
+</msup>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<msup>
+<mi>t</mi>
+<mn>2</mn>
+</msup>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<mi>a</mi>
+<mfrac>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo>=</mo>
+<mn>0</mn>
+</math>
+<p>]</p>
+<p>To solve this, we analyze the associated characteristic (auxiliary) equation:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<msup>
+<mi>r</mi>
+<mn>2</mn>
+</msup>
+<mo>+</mo>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<mi>a</mi>
+<mi>r</mi>
+<mo>+</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mo>=</mo>
+<mn>0</mn>
+</math>
+<p>]</p>
+<p>The nature of the solution is determined by the <strong>discriminant</strong>:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mo stretchy="false">(</mo>
+<mi>D</mi>
+<mi>e</mi>
+<mi>l</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo>=</mo>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<msup>
+<mi>a</mi>
+<mn>2</mn>
+</msup>
+<mo>−</mo>
+<mn>4</mn>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mo stretchy="false">)</mo>
+<mo>:</mo>
+</math>
+<p>]</p>
+<p>Based on the value of <span class="arithmatex">\( \Delta \)</span>, we classify the behavior of the system into three cases:</p>
+<hr/>
+<h3 id="1-underdamped-motion">1. Underdamped Motion</h3>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mo stretchy="false">(</mo>
+<mo stretchy="false">(</mo>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<msup>
+<mi>a</mi>
+<mn>2</mn>
+</msup>
+<mo>&lt;</mo>
+<mn>4</mn>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mo stretchy="false">)</mo>
+<mo stretchy="false">)</mo>
+<mo>:</mo>
+<mi>O</mi>
+<mi>s</mi>
+<mi>c</mi>
+<mi>i</mi>
+<mi>l</mi>
+<mi>l</mi>
+<mi>a</mi>
+<mi>t</mi>
+<mi>o</mi>
+<mi>r</mi>
+<mi>y</mi>
+<mi>d</mi>
+<mi>e</mi>
+<mi>c</mi>
+<mi>a</mi>
+<mi>y</mi>
+</math>
+<p>]</p>
+<ul>
+<li>The solution involves oscillations that gradually decrease in amplitude over time.  </li>
+<li>This is the most common case in physical pendulum systems.</li>
+</ul>
+<hr/>
+<h3 id="2-critically-damped-motion">2. Critically Damped Motion</h3>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mo stretchy="false">(</mo>
+<mo stretchy="false">(</mo>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<msup>
+<mi>a</mi>
+<mn>2</mn>
+</msup>
+<mo>=</mo>
+<mn>4</mn>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mo stretchy="false">)</mo>
+<mo stretchy="false">)</mo>
+<mo>:</mo>
+<mi>F</mi>
+<mi>a</mi>
+<mi>s</mi>
+<mi>t</mi>
+<mi>e</mi>
+<mi>s</mi>
+<mi>t</mi>
+<mi>n</mi>
+<mi>o</mi>
+<mi>n</mi>
+<mo>−</mo>
+<mi>o</mi>
+<mi>s</mi>
+<mi>c</mi>
+<mi>i</mi>
+<mi>l</mi>
+<mi>l</mi>
+<mi>a</mi>
+<mi>t</mi>
+<mi>o</mi>
+<mi>r</mi>
+<mi>y</mi>
+<mi>d</mi>
+<mi>e</mi>
+<mi>c</mi>
+<mi>a</mi>
+<mi>y</mi>
+</math>
+<p>]</p>
+<ul>
+<li>The system returns to equilibrium <strong>as quickly as possible</strong> without oscillating.  </li>
+<li>This represents the fastest non-oscillatory decay.</li>
+</ul>
+<hr/>
+<h3 id="3-overdamped-motion">3. Overdamped Motion</h3>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mo stretchy="false">(</mo>
+<mo stretchy="false">(</mo>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<msup>
+<mi>a</mi>
+<mn>2</mn>
+</msup>
+<mo>&gt;</mo>
+<mn>4</mn>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mo stretchy="false">)</mo>
+<mo stretchy="false">)</mo>
+<mo>:</mo>
+<mi>S</mi>
+<mi>l</mi>
+<mi>o</mi>
+<mi>w</mi>
+<mo>,</mo>
+<mi>n</mi>
+<mi>o</mi>
+<mi>n</mi>
+<mo>−</mo>
+<mi>o</mi>
+<mi>s</mi>
+<mi>c</mi>
+<mi>i</mi>
+<mi>l</mi>
+<mi>l</mi>
+<mi>a</mi>
+<mi>t</mi>
+<mi>o</mi>
+<mi>r</mi>
+<mi>y</mi>
+<mi>d</mi>
+<mi>e</mi>
+<mi>c</mi>
+<mi>a</mi>
+<mi>y</mi>
+</math>
+<p>]</p>
+<ul>
+<li>The system slowly returns to rest without oscillations.  </li>
+<li>The decay is slower than in the critically damped case.</li>
+</ul>
+<hr/>
+<p>Each damping regime gives insight into how energy is dissipated in the system and how quickly the pendulum settles back to equilibrium.</p>
+<h2 id="particular-solution-response-to-external-forcing">Particular Solution: Response to External Forcing</h2>
+<p>In the case of the linearized differential equation, the <strong>particular solution</strong> represents the system’s steady-state behavior under continuous periodic driving. The general form is expressed as:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<msub>
+<mi>a</mi>
+<mi>p</mi>
+</msub>
+<mo stretchy="false">(</mo>
+<mi>t</mi>
+<mo stretchy="false">)</mo>
+<mo>=</mo>
+<mi>C</mi>
+<mi>c</mi>
+<mi>o</mi>
+<mi>s</mi>
+<mo stretchy="false">(</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<mi>a</mi>
+<mi>t</mi>
+<mo>−</mo>
+<mi>d</mi>
+<mi>e</mi>
+<mi>l</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo stretchy="false">)</mo>
+</math>
+<p>]</p>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\( C \)</span> is the <strong>amplitude</strong> of the resulting oscillation, determined by the relation:</li>
+</ul>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mi>C</mi>
+<mo>=</mo>
+<mfrac>
+<mi>f</mi>
+<msqrt>
+<mo stretchy="false">(</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mo>−</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msup>
+<mi>a</mi>
+<mn>2</mn>
+</msup>
+<msup>
+<mo stretchy="false">)</mo>
+<mn>2</mn>
+</msup>
+<mo>+</mo>
+<mo stretchy="false">(</mo>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<mi>a</mi>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<mi>a</mi>
+<msup>
+<mo stretchy="false">)</mo>
+<mn>2</mn>
+</msup>
+</msqrt>
+</mfrac>
+</math>
+<p>]</p>
+<ul>
+<li><span class="arithmatex">\( \delta \)</span> is the <strong>phase lag</strong>, describing how much the system’s response is delayed relative to the external force:</li>
+</ul>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mi>d</mi>
+<mi>e</mi>
+<mi>l</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo>=</mo>
+<mi>t</mi>
+<mi>a</mi>
+<msup>
+<mi>n</mi>
+<mrow data-mjx-texclass="ORD">
+<mo>−</mo>
+<mn>1</mn>
+</mrow>
+</msup>
+<mi>l</mi>
+<mi>e</mi>
+<mi>f</mi>
+<mi>t</mi>
+<mo stretchy="false">(</mo>
+<mfrac>
+<mrow>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<mi>a</mi>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mo>−</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msup>
+<mi>a</mi>
+<mn>2</mn>
+</msup>
+</mrow>
+</mfrac>
+<mi>r</mi>
+<mi>i</mi>
+<mi>g</mi>
+<mi>h</mi>
+<mi>t</mi>
+<mo stretchy="false">)</mo>
+</math>
+<p>]</p>
+<p>This particular solution captures the long-term response of the system, where transient effects have diminished and the motion is fully synchronized with the external driving input — though possibly with reduced amplitude and a time delay depending on damping and frequency mismatch.</p>
+<h2 id="resonance-condition">Resonance Condition</h2>
+<p>Resonance takes place when the amplitude <span class="arithmatex">\( C \)</span> of the particular solution reaches its peak value. This occurs when the denominator in the amplitude expression becomes as small as possible:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<msub>
+<mi>ω</mi>
+<mrow data-mjx-texclass="ORD">
+<mtext>res</mtext>
+</mrow>
+</msub>
+<mo>=</mo>
+<msqrt>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mo>−</mo>
+<mfrac>
+<mrow>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<msup>
+<mi>a</mi>
+<mn>2</mn>
+</msup>
+</mrow>
+<mn>2</mn>
+</mfrac>
+</msqrt>
+</math>
+<p>]</p>
+<p>In cases of light damping (<span class="arithmatex">\( \gamma \ll \omega_0 \)</span>), this expression simplifies to:</p>
+<div class="arithmatex">\[
+\omega \approx \omega_0
+\]</div>
+<p>At resonance:</p>
+<ul>
+<li>The system draws in energy from the external periodic force with high efficiency.</li>
+<li>The amplitude of oscillation may become extremely large, unless restrained by damping or system nonlinearities.</li>
+</ul>
+<h2 id="nonlinear-dynamics-and-complex-motion">Nonlinear Dynamics and Complex Motion</h2>
+<p>When the assumption of small-angle motion breaks down — for instance, when the pendulum swings with large initial displacement or is subjected to a strong periodic force — the linear approximation is no longer valid. In such cases, the system must be described by the full nonlinear equation:</p>
+<p>[</p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mfrac>
+<mrow>
+<msup>
+<mi>d</mi>
+<mn>2</mn>
+</msup>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<msup>
+<mi>t</mi>
+<mn>2</mn>
+</msup>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mi>g</mi>
+<mi>a</mi>
+<mi>m</mi>
+<mi>m</mi>
+<mi>a</mi>
+<mfrac>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+</mrow>
+<mrow>
+<mi>d</mi>
+<mi>t</mi>
+</mrow>
+</mfrac>
+<mo>+</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<msubsup>
+<mi>a</mi>
+<mn>0</mn>
+<mn>2</mn>
+</msubsup>
+<mi>s</mi>
+<mi>i</mi>
+<mi>n</mi>
+<mo stretchy="false">(</mo>
+<mi>t</mi>
+<mi>h</mi>
+<mi>e</mi>
+<mi>t</mi>
+<mi>a</mi>
+<mo stretchy="false">)</mo>
+<mo>=</mo>
+<mi>f</mi>
+<mi>c</mi>
+<mi>o</mi>
+<mi>s</mi>
+<mo stretchy="false">(</mo>
+<mi>o</mi>
+<mi>m</mi>
+<mi>e</mi>
+<mi>g</mi>
+<mi>a</mi>
+<mi>t</mi>
+<mo stretchy="false">)</mo>
+</math>
+<p>]</p>
+<p>This nonlinear differential equation typically <strong>cannot be solved exactly</strong>, and requires the use of <strong>numerical techniques</strong> to analyze its behavior. Common approaches include:</p>
+<ul>
+<li>Runge-Kutta methods (e.g., RK4 integration)</li>
+<li>Phase space visualization</li>
+<li>Poincaré maps</li>
+<li>Bifurcation analysis</li>
+</ul>
+<p>Nonlinear systems like this can exhibit a wide range of complex dynamics, such as:</p>
+<ul>
+<li><strong>Period doubling</strong></li>
+<li><strong>Quasiperiodic motion</strong></li>
+<li><strong>Chaotic behavior</strong></li>
+</ul>
+<p>These behaviors are highly sensitive to both <strong>initial conditions</strong> and <strong>parameter values</strong>, making them a core area of study in nonlinear systems and dynamical analysis.</p>
+<p><strong>Summary</strong>
+The behavior of a forced damped pendulum is governed by a nonlinear, second-order differential equation with external forcing.
+By applying linear approximations, one can explore fundamental aspects such as resonance phenomena and the role of damping.
+However, to fully capture the system’s complexity, especially in strongly nonlinear regimes, numerical techniques are indispensable.
+This model acts as a foundational framework for investigating intricate dynamics, including the onset of chaos in nonlinear systems.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
